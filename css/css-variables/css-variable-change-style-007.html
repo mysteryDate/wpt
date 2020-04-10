@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>CSS Variables Test: Style changes on non-inherited properties using variables</title>
+<link rel="author" title="Javier Fernandez Garcia-Boente" href="mailto:jfernandez@igalia.com">
+<link rel="help" href="http://www.w3.org/TR/css-variables-1/#using-variables">
+<meta name="assert" content="Custom property inheritance doesn't interfere with explicit inheritance of other properties">
+<link rel="match" href="reference/filled-100x100-green-square-ref.html">
+<link rel="stylesheet" type="text/css" href="/fonts/ahem.css" />
+<style type="text/css">
+    .container {
+        width: 100px;
+        background: red;
+    }
+    div { font: 25px/1 Ahem; }
+    .green { --color: green; }
+</style>
+<p>Test passes if there is a green square and no red.</p>
+<div class="container">
+    <div id="test">
+        <div style="width: 100px; background-color: var(--color);">
+            <div style="color: green; background-color: inherit">
+                <div>XX</div>
+                <div style="background-color: var(--color)">X X</div>
+                <div style="color: green;">
+                    <div style="background-color: inherit">XX</div>
+                    <div style="background-color: inherit">X X</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    "use strict";
+    document.fonts.ready.then(() => {
+        document.body.offsetTop;
+        test.className = "green";
+    });
+</script>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>CSS Variables Test: Style changes on non-inherited properties using variables</title>
+<link rel="author" title="Javier Fernandez Garcia-Boente" href="mailto:jfernandez@igalia.com">
+<link rel="help" href="http://www.w3.org/TR/css-variables-1/#using-variables">
+<meta name="assert" content="A change in a variable reference must be propagated to all the descendants">
+<link rel="match" href="reference/filled-100x100-green-square-ref.html">
+<link rel="stylesheet" type="text/css" href="/fonts/ahem.css" />
+<style type="text/css">
+    div {
+        font: 25px/1 Ahem;
+        color: green;
+    }
+    .container { width: 100px; }
+    :root {
+        --color-1: red;
+        --color-2: green;
+    }
+    .red { background-color: var(--color-1); }
+    .green { background-color: var(--color-2); }
+</style>
+<p>Test passes if there is a green square and no red.</p>
+<div class="container">
+    <div id="test" class="red">
+        <div>X X</div>
+        <div>
+            <div>XX</div>
+            <div>
+                <div>X  X</div>
+            </div>
+        </div>
+        <div>XX</div>
+    </div>
+</div>
+<script>
+    "use strict";
+    CSS.registerProperty({
+       name: '--color',
+       syntax: '<color>',
+       initialValue: 'black',
+       inherits: true
+    });
+    document.fonts.ready.then(() => {
+        document.body.offsetTop;
+        test.className = "green";
+    });
+</script>
+

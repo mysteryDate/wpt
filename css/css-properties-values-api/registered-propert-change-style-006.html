@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>CSS Variables Test: Style changes on non-inherited properties using variables</title>
+<link rel="author" title="Javier Fernandez Garcia-Boente" href="mailto:jfernandez@igalia.com">
+<link rel="help" href="http://www.w3.org/TR/css-variables-1/#using-variables">
+<meta name="assert" content="A change in the custom property declaration must trigger style recalculation on all the elements with properties referencing such declaration">
+<link rel="match" href="reference/filled-100x100-green-square-ref.html">
+<style type="text/css">
+    :root { --color: red; }
+    .var-bg { background-color: var(--color); }
+    .bg { background: green; }
+    .bg, .var-bg {
+        width: 100px;
+        height: 25px;
+    }
+</style>
+<p>Test passes if there is a green square and no red.</p>
+<div id="test">
+    <div class="var-bg"></div>
+    <div class="var-bg"></div>
+    <div class="bg"></div>
+    <div class="var-bg"></div>
+</div>
+<script>
+    "use strict";
+    CSS.registerProperty({
+       name: '--color',
+       syntax: '<color>',
+       initialValue: 'black',
+       inherits: true
+    });
+    document.body.offsetTop;
+    test.style.cssText = "--color: green";
+</script>

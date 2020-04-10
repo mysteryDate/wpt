@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>CSS Variables Test: Style changes on inherited properties using variables</title>
+<link rel="author" title="Javier Fernandez Garcia-Boente" href="mailto:jfernandez@igalia.com">
+<link rel="help" href="http://www.w3.org/TR/css-variables-1/#using-variables">
+<meta name="assert" content="A change in the custom property declaration must be propagated to all the descendants">
+<link rel="match" href="reference/filled-100x100-green-square-ref.html">
+<link rel="stylesheet" type="text/css" href="/fonts/ahem.css" />
+<style type="text/css">
+    div { font: 25px/1 Ahem; }
+    :root { --color: red; }
+    .test { color: var(--color); }
+</style>
+<p>Test passes if there is a green square and no red.
+<div id="id1">
+    <div class="test">
+        <div>XXXX</div>
+        <div>XXXX</div>
+        <div>XXXX</div>
+        <div>XXXX</div>
+    </div>
+</div>
+<script>
+    "use strict";
+    CSS.registerProperty({
+       name: '--color',
+       syntax: '<color>',
+       initialValue: 'black',
+       inherits: true
+    });
+    document.fonts.ready.then(() => {
+        document.body.offsetTop;
+        id1.style.cssText = "--color: green";
+    });
+</script>
